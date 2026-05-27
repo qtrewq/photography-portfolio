@@ -293,7 +293,7 @@ const PageView = ({ page }) => {
           width: `${CANVAS_W}px`,
           height: `${CANVAS_H}px`,
           transform: `scale(${scale})`,
-          transformOrigin: 'top left',
+          transformOrigin: 'center center',
         }}
       >
         {/* Render all slides, only active is visible */}

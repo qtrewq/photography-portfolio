@@ -10,10 +10,9 @@
 }
 
 .slide-scale-container {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   flex-shrink: 0;
+  transform-origin: center center;
 }
 
 /* Fullscreen mode — hide nav so slides take full height */
