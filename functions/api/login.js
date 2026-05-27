@@ -1,10 +1,12 @@
-export async function onRequestPost({ request }) {
+export async function onRequestPost({ request, env }) {
   try {
     const { password } = await request.json();
     
-    // In a real app, use a secure hashed password stored in KV or Env vars.
-    // For this demonstration, we use a hardcoded password 'admin'
-    if (password === 'admin') {
+    // Check if an ADMIN_PASSWORD environment variable is configured in Cloudflare Dashboard.
+    // If not, default to 'admin' for local dev compatibility.
+    const securePassword = env.ADMIN_PASSWORD || 'admin';
+    
+    if (password === securePassword) {
       return new Response(JSON.stringify({ success: true, token: 'mock-token-for-dev' }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }

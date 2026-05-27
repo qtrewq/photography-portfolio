@@ -1,7 +1,7 @@
 var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
-// ../.wrangler/tmp/bundle-0zswgw/checked-fetch.js
+// ../.wrangler/tmp/bundle-yafLFy/checked-fetch.js
 var urls = /* @__PURE__ */ new Set();
 function checkURL(request, init) {
   const url = request instanceof URL ? request : new URL(
@@ -56,10 +56,11 @@ async function onRequestGet({ env, params }) {
 __name(onRequestGet, "onRequestGet");
 
 // api/login.js
-async function onRequestPost({ request }) {
+async function onRequestPost({ request, env }) {
   try {
     const { password } = await request.json();
-    if (password === "admin") {
+    const securePassword = env.ADMIN_PASSWORD || "admin";
+    if (password === securePassword) {
       return new Response(JSON.stringify({ success: true, token: "mock-token-for-dev" }), {
         status: 200,
         headers: { "Content-Type": "application/json" }
@@ -771,7 +772,7 @@ var jsonError = /* @__PURE__ */ __name(async (request, env, _ctx, middlewareCtx)
 }, "jsonError");
 var middleware_miniflare3_json_error_default = jsonError;
 
-// ../.wrangler/tmp/bundle-0zswgw/middleware-insertion-facade.js
+// ../.wrangler/tmp/bundle-yafLFy/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
   middleware_miniflare3_json_error_default
@@ -803,7 +804,7 @@ function __facade_invoke__(request, env, ctx, dispatch, finalMiddleware) {
 }
 __name(__facade_invoke__, "__facade_invoke__");
 
-// ../.wrangler/tmp/bundle-0zswgw/middleware-loader.entry.ts
+// ../.wrangler/tmp/bundle-yafLFy/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class ___Facade_ScheduledController__ {
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;

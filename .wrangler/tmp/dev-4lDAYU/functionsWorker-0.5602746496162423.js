@@ -82,10 +82,11 @@ async function onRequestGet({ env, params }) {
 }
 __name(onRequestGet, "onRequestGet");
 __name2(onRequestGet, "onRequestGet");
-async function onRequestPost({ request }) {
+async function onRequestPost({ request, env }) {
   try {
     const { password } = await request.json();
-    if (password === "admin") {
+    const securePassword = env.ADMIN_PASSWORD || "admin";
+    if (password === securePassword) {
       return new Response(JSON.stringify({ success: true, token: "mock-token-for-dev" }), {
         status: 200,
         headers: { "Content-Type": "application/json" }

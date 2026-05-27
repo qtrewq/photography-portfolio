@@ -391,16 +391,65 @@ const AdminEditor = () => {
     : null;
 
   /* ─────────── Render: Not authenticated ─────────── */
+  const [passwordInput, setPasswordInput] = useState('');
+  const [loginError, setLoginError] = useState('');
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoginError('');
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: passwordInput })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem('adminToken', data.token);
+        setIsAuthenticated(true);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setLoginError(data.error || 'Incorrect password.');
+      }
+    } catch (err) {
+      setLoginError('Error connecting to authentication service.');
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', background: '#09090b', color: 'white' }}>
-        <div className="glass" style={{ padding: '3rem', textAlign: 'center', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
+        <form onSubmit={handleLogin} className="glass" style={{ padding: '3rem', textAlign: 'center', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', width: '100%', maxWidth: '400px' }}>
           <h2 style={{ marginBottom: '0.5rem', fontWeight: 300, letterSpacing: '3px', fontSize: '1.5rem' }}>ADMIN ACCESS</h2>
           <p style={{ opacity: 0.5, marginBottom: '2rem', fontSize: '0.9rem' }}>Required to edit this portfolio</p>
-          <button className="btn-primary" onClick={() => { localStorage.setItem('adminToken', 'true'); setIsAuthenticated(true); }}>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
+            <input 
+              type="password" 
+              placeholder="Enter password..." 
+              value={passwordInput} 
+              onChange={e => setPasswordInput(e.target.value)}
+              autoFocus
+              style={{
+                width: '100%',
+                padding: '0.75rem 1rem',
+                borderRadius: '6px',
+                border: '1px solid rgba(255,255,255,0.1)',
+                background: 'rgba(255,255,255,0.05)',
+                color: 'white',
+                outline: 'none',
+                boxSizing: 'border-box',
+                fontSize: '1rem',
+                textAlign: 'center'
+              }}
+            />
+            {loginError && <p style={{ color: '#ff4757', fontSize: '0.85rem', margin: 0 }}>{loginError}</p>}
+          </div>
+
+          <button type="submit" className="btn-primary" style={{ width: '100%', padding: '0.75rem', fontSize: '1rem' }}>
             Enter Editor
           </button>
-        </div>
+        </form>
       </div>
     );
   }
