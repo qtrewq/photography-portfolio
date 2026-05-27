@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import {
   LogOut, Save, Plus, Trash2, Type, Image as ImageIcon,
   Copy, ChevronUp, ChevronDown, ChevronsUp, ChevronsDown,
-  Layout, Play, Upload, X, FileText
+  Layout, Play, Upload, X, FileText, Layers
 } from 'lucide-react';
 import { themes } from '../themeTemplates';
 import './AdminEditor.css';
@@ -533,9 +533,11 @@ const AdminEditor = () => {
                     >
                       {isSelected && (() => {
                         const allZ = activeSlide.blocks.map(b => b.zIndex || 1);
-                        const maxZ = Math.max(...allZ);
-                        const minZ = Math.min(...allZ);
+                        const maxZ = Math.max(...allZ, 1);
+                        const minZ = Math.min(...allZ, 1);
                         const curZ = block.zIndex || 1;
+                        const hasMultipleBlocks = activeSlide.blocks.length > 1;
+
                         return (
                           <div className="block-toolbar">
                             {/* Separator label */}
@@ -545,7 +547,7 @@ const AdminEditor = () => {
                             {/* Bring to Front */}
                             <button
                               title="Bring to Front"
-                              disabled={curZ >= maxZ}
+                              disabled={!hasMultipleBlocks || curZ > maxZ}
                               onClick={e => { e.stopPropagation(); updateBlock(block.id, { zIndex: maxZ + 1 }); }}
                             >
                               <ChevronsUp size={13} />
@@ -554,7 +556,7 @@ const AdminEditor = () => {
                             {/* Bring Forward */}
                             <button
                               title="Bring Forward"
-                              disabled={curZ >= maxZ}
+                              disabled={!hasMultipleBlocks}
                               onClick={e => { e.stopPropagation(); updateBlock(block.id, { zIndex: curZ + 1 }); }}
                             >
                               <ChevronUp size={13} />
@@ -563,8 +565,8 @@ const AdminEditor = () => {
                             {/* Send Backward */}
                             <button
                               title="Send Backward"
-                              disabled={curZ <= 1}
-                              onClick={e => { e.stopPropagation(); updateBlock(block.id, { zIndex: Math.max(1, curZ - 1) }); }}
+                              disabled={!hasMultipleBlocks}
+                              onClick={e => { e.stopPropagation(); updateBlock(block.id, { zIndex: curZ - 1 }); }}
                             >
                               <ChevronDown size={13} />
                             </button>
@@ -572,8 +574,8 @@ const AdminEditor = () => {
                             {/* Send to Back */}
                             <button
                               title="Send to Back"
-                              disabled={curZ <= 1}
-                              onClick={e => { e.stopPropagation(); updateBlock(block.id, { zIndex: Math.max(1, minZ - 1) }); }}
+                              disabled={!hasMultipleBlocks || curZ < minZ}
+                              onClick={e => { e.stopPropagation(); updateBlock(block.id, { zIndex: minZ - 1 }); }}
                             >
                               <ChevronsDown size={13} />
                             </button>

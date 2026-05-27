@@ -104,9 +104,23 @@ function App() {
 
         {/* All other routes get the standard site shell */}
         <Route path="/*" element={
-          <div className={`app-container layout-${siteSettings.navigationLayout}`} style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
+          <div 
+            className={`app-container layout-${siteSettings.navigationLayout}`} 
+            style={{ 
+              display: 'flex', 
+              flexDirection: siteSettings.navigationLayout === 'sidebar' ? 'row' : 'column', 
+              height: '100vh', 
+              width: '100vw',
+              overflow: 'hidden' 
+            }}
+          >
             <Navigation pages={pages} title={siteSettings.title} layout={siteSettings.navigationLayout} />
-            <main style={{ flex: 1, overflow: 'hidden', position: 'relative' }}>
+            <main style={{ 
+              flex: 1, 
+              height: '100%', 
+              overflow: 'hidden', 
+              position: 'relative' 
+            }}>
               <Routes>
                 <Route path="/" element={<Navigate to={pages.length > 0 ? `/${pages[0].id}` : "/"} replace />} />
                 {pages.map((page) => (

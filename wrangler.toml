@@ -5,4 +5,3 @@ pages_build_output_dir = "dist"
 [[kv_namespaces]]
 binding = "PORTFOLIO_KV"
 id = "f46b8f23d3b541d28d0aaf3365aff1c8"
-preview_id = "f46b8f23d3b541d28d0aaf3365aff1c8"

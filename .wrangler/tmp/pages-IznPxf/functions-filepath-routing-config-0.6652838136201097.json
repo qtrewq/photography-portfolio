@@ -1,0 +1,45 @@
+{
+  "routes": [
+    {
+      "routePath": "/api/images/:id",
+      "mountPath": "/api/images",
+      "method": "GET",
+      "module": [
+        "api/images/[id].js:onRequestGet"
+      ]
+    },
+    {
+      "routePath": "/api/login",
+      "mountPath": "/api",
+      "method": "POST",
+      "module": [
+        "api/login.js:onRequestPost"
+      ]
+    },
+    {
+      "routePath": "/api/portfolio",
+      "mountPath": "/api",
+      "method": "GET",
+      "module": [
+        "api/portfolio.js:onRequestGet"
+      ]
+    },
+    {
+      "routePath": "/api/portfolio",
+      "mountPath": "/api",
+      "method": "POST",
+      "module": [
+        "api/portfolio.js:onRequestPost"
+      ]
+    },
+    {
+      "routePath": "/api/upload",
+      "mountPath": "/api",
+      "method": "POST",
+      "module": [
+        "api/upload.js:onRequestPost"
+      ]
+    }
+  ],
+  "baseURL": "/"
+}
