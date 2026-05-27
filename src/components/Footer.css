@@ -1,0 +1,14 @@
+.footer {
+  padding: 2rem;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
+.copyright {
+  opacity: 0.5;
+  font-size: 0.9rem;
+  user-select: none;
+  cursor: default;
+  display: inline-block;
+}

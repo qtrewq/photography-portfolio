@@ -1,0 +1,23 @@
+.page-view-fullscreen {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - var(--nav-height, 60px));
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide-scale-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  flex-shrink: 0;
+}
+
+/* Fullscreen mode — hide nav so slides take full height */
+:fullscreen .page-view-fullscreen,
+:-webkit-full-screen .page-view-fullscreen {
+  height: 100vh;
+}
